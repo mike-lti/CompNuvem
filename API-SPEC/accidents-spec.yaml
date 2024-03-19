@@ -1548,29 +1548,6 @@ components:
       enum: [Day, Night]
       description: "Period of the day at the time of the accident"
       example: Day
-    accident_name:
-      type: object
-      properties:
-        severity:
-          $ref: '#/components/schemas/severity'
-        state:
-          $ref: '#/components/schemas/state'
-        county:
-          $ref: '#/components/schemas/county'
-        city:
-          $ref: '#/components/schemas/city'
-    accident_name_B:
-      type: object
-      properties:
-        severity:
-          $ref: '#/components/schemas/severity'
-        state:
-          $ref: '#/components/schemas/state'
-        county:
-          $ref: '#/components/schemas/county'
-        city:
-          $ref: '#/components/schemas/city'
-          
     humidity:
       type: object
       required:
