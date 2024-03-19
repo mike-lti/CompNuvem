@@ -1,0 +1,856 @@
+openapi: "3.0.2"
+info:
+  title: "Group 10 API Specification"
+  description: "Specification of the Project of Group 10 based on the OpenAPI."
+  version: "0.0"
+
+servers:
+  - url: "traffic"
+
+paths:
+  /accidents:
+    get:
+      summary: "GET all accidents in the United States of America."
+      description: "Access the information about the number of Accidents in the USA."
+      operationId: AllAccidents
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/200_ALL'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+
+  /accidents/{state}:
+    get:
+      summary: "GET all accidents in a state."
+      description: "Access the information about the number of Accidents in a State."
+      operationId: AccidentsByState
+      parameters:
+        - $ref: '#/components/parameters/state'
+        - $ref: '#/components/parameters/severity'
+
+
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/200_State'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+
+  /accidents/{county}:
+    get:
+      summary: "GET all accidents in a county."
+      description: "Access the information about the number of Accidents in a County."
+      operationId: AccidentsByState
+      parameters:
+        - $ref: '#/components/parameters/county'
+        - $ref: '#/components/parameters/severity'
+
+
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/200_County'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+
+  /accidents/{city}:
+    get:
+      summary: "GET all accidents in a city."
+      description: "Access the information about the number of Accidents in a City."
+      operationId: AccidentsByState
+      parameters:
+        - $ref: '#/components/parameters/city'
+        - $ref: '#/components/parameters/severity'
+
+
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/200_City'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+
+  /accidents/{street}:
+    get:
+      summary: "GET all accidents in a Street."
+      description: "Access the information about the number of Accidents in a Street."
+      operationId: AccidentsByState
+      parameters:
+        - $ref: '#/components/parameters/street'
+        - $ref: '#/components/parameters/severity'
+
+
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/200_Street'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+
+  /accidents/new:
+    post:
+      summary: "Add a new accident."
+      description: "Add a new accident in the system."
+      operationId: NewAccident
+      parameters:
+        - $ref: '#/components/parameters/state'
+        - $ref: '#/components/parameters/severity'
+        - $ref: '#/components/parameters/county'
+        - $ref: '#/components/parameters/city'
+        - $ref: '#/components/parameters/street'
+        - $ref: '#/components/parameters/apikey'
+
+
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/200_POST'
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/403'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+
+  /accidents/options/safe:
+    get:
+      summary: "Get the safest state/county/city/street, based on the options."
+      description: "Given a location returns the safest state/county/city/street, based on the options."
+      operationId: SearchAroundLocation
+      parameters:
+        - $ref: '#/components/parameters/geo_dimension'
+        - $ref: '#/components/parameters/location'
+        - $ref: '#/components/parameters/apikey'
+
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/200_Options'
+                  - $ref: '#/components/schemas/200_Options_County'
+                  - $ref: '#/components/schemas/200_Options_City'
+                  - $ref: '#/components/schemas/200_Options_Street'
+
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/403'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+
+components:
+
+  parameters:
+    apikey:
+      name: apikey
+      in: header
+      description: "API key to authorize requests."
+      schema:
+        type: string
+      required: true
+    state:
+      name: state
+      in: path
+      description: "The state where the information comes from."
+      schema:
+        type: string
+        example: "Mississippi"
+      required: true
+    county:
+      name: county
+      in: path
+      description: "The county where the information comes from."
+      schema:
+        type: string
+        example: "Falls Church"
+      required: true
+    city:
+      name: city
+      in: path
+      description: "The city where the information comes from."
+      schema:
+        type: string
+        example: "Los Angeles"
+      required: true
+    street:
+      name: street
+      in: path
+      description: "The street where the information comes from."
+      schema:
+        type: string
+        example: "Bourbon Street"
+      required: true
+    severity:
+      name: severity
+      in: header
+      description: "the severity required for the query. If no severity is mentioned
+       the default value will be applied."
+      schema:
+        type: string
+        enum:
+          - low
+          - medium
+          - high
+        default: low
+        example: "high"
+    ## for authenticated users and location
+    geo_dimension:
+      name: geo_dimension
+      in: query
+      description: "The geographic dimension required."
+      schema:
+        type: string
+        enum:
+          - State
+          - County
+          - City
+          - Street
+      required: true
+    location:
+      name: location
+      in: query
+      description: "the standing location."
+      schema:
+        type: string
+        example: "Bourbon Street"
+      required: true
+
+  schemas:
+    ### Schemas for all
+    "200_ALL":
+      title: OK
+      type: object
+      required:
+        - number_of_accidents
+        - accident_name
+      properties:
+        number_of_accidents:
+          type: integer
+          example: 1500
+        accident_name:
+          type: object
+          properties:
+            severity:
+              $ref: '#/components/schemas/severity'
+            state:
+              $ref: '#/components/schemas/state'
+            county:
+              $ref: '#/components/schemas/county'
+            city:
+              $ref: '#/components/schemas/city'
+            street:
+              $ref: '#/components/schemas/street'
+        accident_name_B:
+          type: object
+          properties:
+            severity:
+              $ref: '#/components/schemas/severity'
+            state:
+              $ref: '#/components/schemas/state'
+            county:
+              $ref: '#/components/schemas/county'
+            city:
+              $ref: '#/components/schemas/city'
+            street:
+              $ref: '#/components/schemas/street'
+
+    ### Schemas by State
+    "200_State":
+      title: OK
+      type: object
+      required:
+        - number_of_accidents
+        - accident_name
+        - state
+      properties:
+        state:
+          type: string
+          example: Mississippi
+        number_of_accidents:
+          type: integer
+          example: 1500
+        accident_name:
+          type: object
+          properties:
+            severity:
+              $ref: '#/components/schemas/severity'
+            county:
+              $ref: '#/components/schemas/county'
+            city:
+              $ref: '#/components/schemas/city'
+            street:
+              $ref: '#/components/schemas/street'
+        accident_name_B:
+          type: object
+          properties:
+            severity:
+              $ref: '#/components/schemas/severity'
+            county:
+              $ref: '#/components/schemas/county'
+            city:
+              $ref: '#/components/schemas/city'
+            street:
+              $ref: '#/components/schemas/street'
+
+    ### Schemas by County
+    "200_County":
+      title: OK
+      type: object
+      required:
+        - number_of_accidents
+        - accident_name
+        - county
+      properties:
+        county:
+          type: string
+          example: Los Angeles County
+        number_of_accidents:
+          type: integer
+          example: 1500
+        accident_name:
+          type: object
+          properties:
+            severity:
+              $ref: '#/components/schemas/severity'
+            state:
+              $ref: '#/components/schemas/state'
+            city:
+              $ref: '#/components/schemas/city'
+            street:
+              $ref: '#/components/schemas/street'
+        accident_name_B:
+          type: object
+          properties:
+            severity:
+              $ref: '#/components/schemas/severity'
+            state:
+              $ref: '#/components/schemas/state'
+            city:
+              $ref: '#/components/schemas/city'
+            street:
+              $ref: '#/components/schemas/street'
+
+    ### Schemas by City
+    "200_City":
+      title: OK
+      type: object
+      required:
+        - number_of_accidents
+        - accident_name
+        - City
+      properties:
+        city:
+          type: string
+          example: Los Angeles
+        number_of_accidents:
+          type: integer
+          example: 1500
+        accident_name:
+          type: object
+          properties:
+            severity:
+              $ref: '#/components/schemas/severity'
+            state:
+              $ref: '#/components/schemas/state'
+            county:
+              $ref: '#/components/schemas/county'
+            street:
+              $ref: '#/components/schemas/street'
+        accident_name_B:
+          type: object
+          properties:
+            severity:
+              $ref: '#/components/schemas/severity'
+            state:
+              $ref: '#/components/schemas/state'
+            county:
+              $ref: '#/components/schemas/county'
+            street:
+              $ref: '#/components/schemas/street'
+
+    ### Schemas by Street
+    "200_Street":
+      title: OK
+      type: object
+      required:
+        - number_of_accidents
+        - accident_name
+        - street
+      properties:
+        street:
+          type: string
+          example: Bourbon Street
+        number_of_accidents:
+          type: integer
+          example: 1500
+        accident_name:
+          type: object
+          properties:
+            severity:
+              $ref: '#/components/schemas/severity'
+            state:
+              $ref: '#/components/schemas/state'
+            county:
+              $ref: '#/components/schemas/county'
+            city:
+              $ref: '#/components/schemas/city'
+        accident_name_B:
+          type: object
+          properties:
+            severity:
+              $ref: '#/components/schemas/severity'
+            state:
+              $ref: '#/components/schemas/state'
+            county:
+              $ref: '#/components/schemas/county'
+            city:
+              $ref: '#/components/schemas/city'
+
+    ### Schemas POST
+    "200_POST":
+      title: OK
+      type: object
+      properties:
+        message:
+          description: the message
+          type: string
+          example: "The new Accident was successfully added with the information below."
+        accident:
+          type: object
+          properties:
+            severity:
+              $ref: '#/components/schemas/severity'
+            state:
+              $ref: '#/components/schemas/state'
+            county:
+              $ref: '#/components/schemas/county'
+            city:
+              $ref: '#/components/schemas/city'
+            street:
+              $ref: '#/components/schemas/street'
+
+
+    ### Schemas Options Safe
+    "200_Options":
+      title: OK FOR STATE
+      type: object
+      properties:
+        geo_around:
+          type: object
+          properties:
+            state:
+              $ref: '#/components/schemas/state'
+            state2:
+              $ref: '#/components/schemas/state'
+
+
+    ### Schemas Options Safe
+    "200_Options_County":
+      title: OK FOR COUNTY
+      type: object
+      properties:
+        geo_around:
+          type: object
+          properties:
+            county:
+              $ref: '#/components/schemas/county'
+            county2:
+              $ref: '#/components/schemas/county'
+
+    ### Schemas Options Safe
+    "200_Options_City":
+      title: OK FOR CITY
+      type: object
+      properties:
+        geo_around:
+          type: object
+          properties:
+            city:
+              $ref: '#/components/schemas/city'
+            city2:
+              $ref: '#/components/schemas/city'
+
+
+    ### Schemas Options Safe
+    "200_Options_Street":
+      title: OK FOR STREET
+      type: object
+      properties:
+        geo_around:
+          type: object
+          properties:
+            street:
+              $ref: '#/components/schemas/street'
+            street2:
+              $ref: '#/components/schemas/street'
+
+    ### Generic Errors
+    "403":
+      title: FORBIDDEN
+      type: object
+      properties:
+        message:
+          description: the message
+          type: string
+          example: the request was denied by the server.
+        reason:
+          description: the reason why
+          type: string
+          example: apikey invalid
+
+    "404":
+      title: NOT FOUND
+      type: object
+      properties:
+        message:
+          description: the message
+          type: string
+          example: the path requested does not exist.
+
+    "500":
+      title: Server Error
+      type: object
+      properties:
+        message:
+          description: the message
+          type: string
+          example: internal server error.
+
+    ### Custom Schemas
+    severity:
+      title: severity
+      type: string
+      description: "severity of the accident"
+      example: low
+      enum:
+        - low
+        - medium
+        - high
+    state:
+      title: state
+      type: string
+      description: "state where the accident occurred"
+      example: Mississippi
+    county:
+      title: county
+      type: string
+      description: "Los Angeles County where the accident occurred"
+      example: Los Angeles County
+    city:
+      title: city
+      type: string
+      description: "city where the accident occurred"
+      example: Los Angeles
+    street:
+      title: street
+      type: string
+      description: "street where the accident occurred"
+      example: Bourbon Street
+    accident_name:
+      type: object
+      properties:
+        severity:
+          $ref: '#/components/schemas/severity'
+        state:
+          $ref: '#/components/schemas/state'
+        county:
+          $ref: '#/components/schemas/county'
+        city:
+          $ref: '#/components/schemas/city'
+    accident_name_B:
+      type: object
+      properties:
+        severity:
+          $ref: '#/components/schemas/severity'
+        state:
+          $ref: '#/components/schemas/state'
+        county:
+          $ref: '#/components/schemas/county'
+        city:
+          $ref: '#/components/schemas/city'
+
+
+    #####
+    "200":
+      title: Successful response
+      type: object
+      properties:
+        coord:
+          $ref: '#/components/schemas/Coord'
+        weather:
+          type: array
+          items:
+            $ref: '#/components/schemas/Weather'
+          description: (more info Weather condition codes)
+        base:
+          type: string
+          description: Internal parameter
+          example: cmc stations
+        main:
+          $ref: '#/components/schemas/Main'
+        visibility:
+          type: integer
+          description: Visibility, meter
+          example: 16093
+        wind:
+          $ref: '#/components/schemas/Wind'
+        clouds:
+          $ref: '#/components/schemas/Clouds'
+        rain:
+          $ref: '#/components/schemas/Rain'
+        snow:
+          $ref: '#/components/schemas/Snow'
+        dt:
+          type: integer
+          description: Time of data calculation, unix, UTC
+          format: int32
+          example: 1435658272
+        sys:
+          $ref: '#/components/schemas/Sys'
+        id:
+          type: integer
+          description: City ID
+          format: int32
+          example: 2172797
+        name:
+          type: string
+          example: Cairns
+        cod:
+          type: integer
+          description: Internal parameter
+          format: int32
+          example: 200
+    Coord:
+      title: Coord
+      type: object
+      properties:
+        lon:
+          type: number
+          description: City geo location, longitude
+          example: 145.77000000000001
+        lat:
+          type: number
+          description: City geo location, latitude
+          example: -16.920000000000002
+    Weather:
+      title: Weather
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Weather condition id
+          format: int32
+          example: 803
+        main:
+          type: string
+          description: Group of weather parameters (Rain, Snow, Extreme etc.)
+          example: Clouds
+        description:
+          type: string
+          description: Weather condition within the group
+          example: broken clouds
+        icon:
+          type: string
+          description: Weather icon id
+          example: 04n
+    Main:
+      title: Main
+      type: object
+      properties:
+        temp:
+          type: number
+          description: 'Temperature. Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit.'
+          example: 293.25
+        pressure:
+          type: integer
+          description: Atmospheric pressure (on the sea level, if there is no sea_level or grnd_level data), hPa
+          format: int32
+          example: 1019
+        humidity:
+          type: integer
+          description: Humidity, %
+          format: int32
+          example: 83
+        temp_min:
+          type: number
+          description: 'Minimum temperature at the moment. This is deviation from current temp that is possible for large cities and megalopolises geographically expanded (use these parameter optionally). Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit.'
+          example: 289.81999999999999
+        temp_max:
+          type: number
+          description: 'Maximum temperature at the moment. This is deviation from current temp that is possible for large cities and megalopolises geographically expanded (use these parameter optionally). Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit.'
+          example: 295.37
+        sea_level:
+          type: number
+          description: Atmospheric pressure on the sea level, hPa
+          example: 984
+        grnd_level:
+          type: number
+          description: Atmospheric pressure on the ground level, hPa
+          example: 990
+    Wind:
+      title: Wind
+      type: object
+      properties:
+        speed:
+          type: number
+          description: 'Wind speed. Unit Default: meter/sec, Metric: meter/sec, Imperial: miles/hour.'
+          example: 5.0999999999999996
+        deg:
+          type: integer
+          description: Wind direction, degrees (meteorological)
+          format: int32
+          example: 150
+    Clouds:
+      title: Clouds
+      type: object
+      properties:
+        all:
+          type: integer
+          description: Cloudiness, %
+          format: int32
+          example: 75
+    Rain:
+      title: Rain
+      type: object
+      properties:
+        3h:
+          type: integer
+          description: Rain volume for the last 3 hours
+          format: int32
+          example: 3
+    Snow:
+      title: Snow
+      type: object
+      properties:
+        3h:
+          type: number
+          description: Snow volume for the last 3 hours
+          example: 6
+    Sys:
+      title: Sys
+      type: object
+      properties:
+        type:
+          type: integer
+          description: Internal parameter
+          format: int32
+          example: 1
+        id:
+          type: integer
+          description: Internal parameter
+          format: int32
+          example: 8166
+        message:
+          type: number
+          description: Internal parameter
+          example: 0.0166
+        country:
+          type: string
+          description: Country code (GB, JP etc.)
+          example: AU
+        sunrise:
+          type: integer
+          description: Sunrise time, unix, UTC
+          format: int32
+          example: 1435610796
+        sunset:
+          type: integer
+          description: Sunset time, unix, UTC
+          format: int32
+          example: 1435650870
