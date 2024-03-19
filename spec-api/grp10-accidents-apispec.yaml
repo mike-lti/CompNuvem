@@ -229,13 +229,14 @@ components:
       description: "the severity required for the query. If no severity is mentioned
        the default value will be applied."
       schema:
-        type: string
+        type: integer
         enum:
-          - low
-          - medium
-          - high
-        default: low
-        example: "high"
+          - 1
+          - 2
+          - 3
+          - 4
+        default: 1
+        example: 4
     state:
       name: state
       in: path
@@ -533,13 +534,14 @@ components:
     ### Custom Schemas
     severity:
       title: severity
-      type: string
+      type: integer
       description: "severity of the accident"
-      example: low
       enum:
-        - low
-        - medium
-        - high
+        - 1
+        - 2
+        - 3
+        - 4
+      default: 1
     state:
       title: state
       type: string
