@@ -247,6 +247,397 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/500'
+                
+                
+  #Road Trip Advisor endpoints
+  /roadtripadvisor/city:
+    get:
+      summary: Retrieves all cities in the dataset
+      description: All the cities that have entries in our dataset.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/city"
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+      tags:
+        - RoadTripAdvisor
+        
+        
+        
+  /roadtripadvisor/city/{city}:
+    get:
+      summary: Accidents in a city
+      description: Number of accidents registred in our dataset from a specific city.
+      parameters:
+        - $ref: "#/components/parameters/city"
+        - $ref: "#/components/parameters/datetime"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: The number of entries for the specified city.
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+                
+      tags:
+        - RoadTripAdvisor
+        
+
+  /roadtripadvisor/trip-advisor/{city}/{destCity}:
+    get:
+      summary: Get trip advice based on humidity levels and starting date and hours of the trip.
+      description: Trip advice based on humidity levels and starting date and hours between two cities.
+      parameters:
+        - $ref: "#/components/parameters/city"
+        - $ref: "#/components/parameters/datetime"
+        - $ref: "#/components/parameters/destCity"
+        - $ref: '#/components/parameters/apikey'
+        
+      responses:
+        '200':
+          description: Successful response
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "You should take extra precautions, we have registred several accidents occurring close to your starting hour. Humidity levels are elevated in the cities you will go trough drive with extra care and obey speed limits."
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/403'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+                
+        "405":
+          description: WRONG FORMAT
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/405'
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+      tags:
+        - RoadTripAdvisor
+        
+        
+  /roadtripadvisor/humidity/greater_than:
+    get:
+      summary: Number of accidents with humidity percentage greater than the specified value
+      description: Number of entries in our dataset witch humidity percentage is greater than to the desired value..
+      parameters:
+        - name: greater_than
+          in: query
+          description: Return number of accidents with humidity percentages greater than this value
+          schema:
+            type: number
+            format: float
+            minimum: 0
+            maximum: 100
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: The number of accidents.
+                    
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+      tags:
+        - RoadTripAdvisor
+        
+  /roadtripadvisor/humidity/equal_to:
+    get:
+      summary: Number of accidents with humidity percentage equal to the specified value
+      description: Number of entries in our dataset witch humidity percentage is equal to the desired value.
+      parameters:
+        - name: equal_to
+          in: query
+          description: Return number of accidents with humidity percentages equal to this value
+          schema:
+            type: number
+            format: float
+            minimum: 0
+            maximum: 100
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: The number of accidents.
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+      tags:
+        - RoadTripAdvisor
+  
+  
+  /roadtripadvisor/humidity/smaller_than:
+    get:
+      summary: Number of accidents with humidity percentage smaller than the specified value
+      description: Number of entries in our dataset witch humidity percentage is smaller than to the desired value..
+      parameters:
+        - name: smaller_than
+          in: query
+          description: Return number of accidents with humidity percentages smaller than this value
+          schema:
+            type: number
+            format: float
+            minimum: 0
+            maximum: 100
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: The number of accidents.
+                    
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+      tags:
+        - RoadTripAdvisor
+
+
+
+  /roadtripadvisor/datetime/after:
+    get:
+      summary: Number of accidents that took place after the specified hour
+      description: Dataset entries that have an hour of accident after the time the client specifies.
+      parameters:
+        - name: after
+          in: query
+          description: Insert hours you would like to check in a HH:MM:SS format.
+          schema:
+            type: string
+            pattern: '^([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$'
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: Number of accidents that took place after the time you specified.
+                    
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+                
+        "405":
+          description: WRONG FORMAT
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/405'
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+      tags:
+        - RoadTripAdvisor
+
+
+  /roadtripadvisor/datetime/before:
+    get:
+      summary: Number of accidents that took place before the specified hour
+      description: Dataset entries that have an hour of accident before the time the client specifies.
+      parameters:
+        - name: before
+          in: query
+          description: Insert hours you would like to check in a HH:MM:SS format.
+          schema:
+            type: string
+            pattern: '^([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$'
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: Number of accidents that took place before the time you specified.
+                    
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+                
+        "405":
+          description: WRONG FORMAT
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/405'
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+      tags:
+        - RoadTripAdvisor
+
+        
+        
+  /roadtripadvisor/datetime/atTime:
+    get:
+      summary: Number of accidents that took place before the specified hour
+      description: Dataset entries that have an hour of accident before the time the client specifies.
+      parameters:
+        - name: before
+          in: query
+          description: Insert hours you would like to check in a HH:MM:SS format.
+          schema:
+            type: string
+            pattern: '^([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$'
+          required: true
+          
+        - name: interval
+          in: query
+          description: Interval in minutes that you want to seach above and below your before parameter
+          schema:
+            type: number
+            format: integer
+            minimum: 0
+            maximum: 60
+          required: true
+          
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    description: Number of accidents that took place before the time you specified.
+                    
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+                
+        "405":
+          description: WRONG FORMAT
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/405'
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+      tags:
+        - RoadTripAdvisor
 
 components:
 
@@ -325,6 +716,34 @@ components:
         type: string
         example: "Bourbon Street"
       required: true
+      
+    #RoadTripAdvisor
+    destCity:
+      name: "destCity"
+      description: "Name of the city"
+      in: path
+      required: True
+      schema:
+        $ref : "#/components/schemas/destCity"
+        
+    datetime:
+      name: "datetime"
+      in: query
+      description: "Date and time parameter in the format YYYY-MM-DD HH:MM:SS"
+      required: true
+      schema:
+        type: "string"
+        format: "date-time"
+        
+        
+    humidity:
+      name: "humidity"
+      in: query
+      description: "Humidity parameter"
+      required: true
+      schema:
+        $ref: "#/components/schemas/humidity"
+    
 
   schemas:
     ### Schemas for all
@@ -617,6 +1036,15 @@ components:
           description: the message
           type: string
           example: the path requested does not exist.
+          
+    "405":
+      title: WRONG FORMAT
+      type: object
+      properties:
+        message:
+          description: the message
+          type: string
+          example: wrong format used for request's parameter.
 
     "500":
       title: Server Error
@@ -680,3 +1108,22 @@ components:
           $ref: '#/components/schemas/county'
         city:
           $ref: '#/components/schemas/city'
+          
+    humidity:
+      type: object
+      required:
+        - percentage
+      properties:
+        percentage:
+          type: number
+          format: float
+          description: Humidity percentage
+          
+    destCity:
+      type: "object"
+      required:
+        - destCityName
+      properties:
+        cityName:
+          type: "string"
+          description: Destination city name
