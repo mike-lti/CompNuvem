@@ -10,7 +10,9 @@ servers:
 paths:
   /accidents:
     get:
-      summary: "GET all accidents in the United States of America."
+      summary: "All accidents in the United States of America."
+      tags:
+        - Accident
       description: "Access the information about the number of Accidents in the USA."
       operationId: AllAccidents
       responses:
@@ -35,9 +37,11 @@ paths:
 
   /accidents/{state}:
     get:
-      summary: "GET all accidents in a state."
+      summary: "All accidents in a state."
       description: "Access the information about the number of Accidents in a State."
       operationId: AccidentsByState
+      tags:
+        - Accident
       parameters:
         - $ref: '#/components/parameters/state'
         - $ref: '#/components/parameters/severity'
@@ -65,9 +69,11 @@ paths:
 
   /accidents/{county}:
     get:
-      summary: "GET all accidents in a county."
+      summary: "All accidents in a county."
       description: "Access the information about the number of Accidents in a County."
       operationId: AccidentsByCounty
+      tags:
+        - Accident
       parameters:
         - $ref: '#/components/parameters/county'
         - $ref: '#/components/parameters/severity'
@@ -95,9 +101,11 @@ paths:
 
   /accidents/{city}:
     get:
-      summary: "GET all accidents in a city."
+      summary: "All accidents in a city."
       description: "Access the information about the number of Accidents in a City."
       operationId: AccidentsByCity
+      tags:
+        - Accident
       parameters:
         - $ref: '#/components/parameters/city'
         - $ref: '#/components/parameters/severity'
@@ -125,9 +133,11 @@ paths:
 
   /accidents/{street}:
     get:
-      summary: "GET all accidents in a Street."
+      summary: "All accidents in a Street."
       description: "Access the information about the number of Accidents in a Street."
       operationId: AccidentsByStreet
+      tags:
+        - Accident
       parameters:
         - $ref: '#/components/parameters/street'
         - $ref: '#/components/parameters/severity'
@@ -158,6 +168,8 @@ paths:
       summary: "Add a new accident."
       description: "Add a new accident in the system."
       operationId: NewAccident
+      tags:
+        - Accident
       parameters:
         - $ref: '#/components/parameters/state'
         - $ref: '#/components/parameters/severity'
@@ -195,9 +207,11 @@ paths:
 
   /accidents/options/safe:
     get:
-      summary: "Get the safest state/county/city/street, based on the options."
+      summary: "The safest state/county/city/street, based on the options."
       description: "Given a location returns the safest state/county/city/street, based on the options."
       operationId: SearchAroundLocation
+      tags:
+        - Accident
       parameters:
         - $ref: '#/components/parameters/geo_dimension'
         - $ref: '#/components/parameters/location'
