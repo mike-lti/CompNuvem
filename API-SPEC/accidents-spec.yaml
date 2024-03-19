@@ -8,7 +8,7 @@ servers:
   - url: "traffic"
 
 paths:
-  /accidents:
+  /accidents/all:
     get:
       summary: "All accidents in the United States of America."
       tags:
