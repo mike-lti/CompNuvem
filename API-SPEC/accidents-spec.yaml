@@ -5,14 +5,14 @@ info:
   version: "0.0"
 
 servers:
-  - url: "traffic"
+  - url: "accidents"
 
 paths:
-  /accidents:
+  /geolocation/all:
     get:
       summary: "All accidents in the United States of America."
       tags:
-        - Accident
+        - Geolocation
       description: "Access the information about the number of Accidents in the USA."
       operationId: AllAccidents
       responses:
@@ -35,13 +35,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/500'
 
-  /accidents/{state}:
+  /geolocation/{state}:
     get:
       summary: "All accidents in a state."
       description: "Access the information about the number of Accidents in a State."
       operationId: AccidentsByState
       tags:
-        - Accident
+        - Geolocation
       parameters:
         - $ref: '#/components/parameters/state'
         - $ref: '#/components/parameters/severity'
@@ -67,13 +67,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/500'
 
-  /accidents/{county}:
+  /geolocation/{county}:
     get:
       summary: "All accidents in a county."
       description: "Access the information about the number of Accidents in a County."
       operationId: AccidentsByCounty
       tags:
-        - Accident
+        - Geolocation
       parameters:
         - $ref: '#/components/parameters/county'
         - $ref: '#/components/parameters/severity'
@@ -99,13 +99,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/500'
 
-  /accidents/{city}:
+  /geolocation/{city}:
     get:
       summary: "All accidents in a city."
       description: "Access the information about the number of Accidents in a City."
       operationId: AccidentsByCity
       tags:
-        - Accident
+        - Geolocation
       parameters:
         - $ref: '#/components/parameters/city'
         - $ref: '#/components/parameters/severity'
@@ -131,13 +131,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/500'
 
-  /accidents/{street}:
+  /geolocation/{street}:
     get:
       summary: "All accidents in a Street."
       description: "Access the information about the number of Accidents in a Street."
       operationId: AccidentsByStreet
       tags:
-        - Accident
+        - Geolocation
       parameters:
         - $ref: '#/components/parameters/street'
         - $ref: '#/components/parameters/severity'
@@ -163,13 +163,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/500'
 
-  /accidents/new:
+  /geolocation/new:
     post:
       summary: "Add a new accident."
       description: "Add a new accident in the system."
       operationId: NewAccident
       tags:
-        - Accident
+        - Geolocation
       parameters:
         - $ref: '#/components/parameters/state'
         - $ref: '#/components/parameters/severity'
@@ -205,13 +205,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/500'
 
-  /accidents/options/safe:
+  /geolocation/options/safe:
     get:
       summary: "The safest state/county/city/street, based on the options."
       description: "Given a location returns the safest state/county/city/street, based on the options."
       operationId: SearchAroundLocation
       tags:
-        - Accident
+        - Geolocation
       parameters:
         - $ref: '#/components/parameters/geo_dimension'
         - $ref: '#/components/parameters/location'
