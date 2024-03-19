@@ -282,13 +282,14 @@ components:
       description: "the severity required for the query. If no severity is mentioned
        the default value will be applied."
       schema:
-        type: string
+        type: integer
         enum:
-          - low
-          - medium
-          - high
-        default: low
-        example: "high"
+          - 1
+          - 2
+          - 3
+          - 4
+        default: 1
+        example: 4
     ## for authenticated users and location
     geo_dimension:
       name: geo_dimension
@@ -615,13 +616,14 @@ components:
     ### Custom Schemas
     severity:
       title: severity
-      type: string
+      type: number
       description: "severity of the accident"
-      example: low
+      example: 1
       enum:
-        - low
-        - medium
-        - high
+        - 1
+        - 2
+        - 3
+        - 4
     state:
       title: state
       type: string
