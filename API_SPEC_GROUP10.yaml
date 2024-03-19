@@ -138,7 +138,7 @@ paths:
   /accidents/city:
     get:
       summary: Retrieves all cities in the dataset
-      description: All the cities that have entries in your dataset.
+      description: All the cities that have entries in our dataset.
       responses:
         '200':
           description: Successful response
