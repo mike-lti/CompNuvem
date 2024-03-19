@@ -67,7 +67,7 @@ paths:
     get:
       summary: "GET all accidents in a county."
       description: "Access the information about the number of Accidents in a County."
-      operationId: AccidentsByState
+      operationId: AccidentsByCounty
       parameters:
         - $ref: '#/components/parameters/county'
         - $ref: '#/components/parameters/severity'
@@ -97,7 +97,7 @@ paths:
     get:
       summary: "GET all accidents in a city."
       description: "Access the information about the number of Accidents in a City."
-      operationId: AccidentsByState
+      operationId: AccidentsByCity
       parameters:
         - $ref: '#/components/parameters/city'
         - $ref: '#/components/parameters/severity'
@@ -127,7 +127,7 @@ paths:
     get:
       summary: "GET all accidents in a Street."
       description: "Access the information about the number of Accidents in a Street."
-      operationId: AccidentsByState
+      operationId: AccidentsByStreet
       parameters:
         - $ref: '#/components/parameters/street'
         - $ref: '#/components/parameters/severity'
@@ -314,7 +314,7 @@ components:
   schemas:
     ### Schemas for all
     "200_ALL":
-      title: OK
+      title: OK ALL
       type: object
       required:
         - number_of_accidents
@@ -352,7 +352,7 @@ components:
 
     ### Schemas by State
     "200_State":
-      title: OK
+      title: OK STATE
       type: object
       required:
         - number_of_accidents
@@ -390,7 +390,7 @@ components:
 
     ### Schemas by County
     "200_County":
-      title: OK
+      title: OK COUNTY
       type: object
       required:
         - number_of_accidents
@@ -428,7 +428,7 @@ components:
 
     ### Schemas by City
     "200_City":
-      title: OK
+      title: OK CITY
       type: object
       required:
         - number_of_accidents
@@ -466,7 +466,7 @@ components:
 
     ### Schemas by Street
     "200_Street":
-      title: OK
+      title: OK STREET
       type: object
       required:
         - number_of_accidents
@@ -504,7 +504,7 @@ components:
 
     ### Schemas POST
     "200_POST":
-      title: OK
+      title: OK POST
       type: object
       properties:
         message:
@@ -528,7 +528,7 @@ components:
 
     ### Schemas Options Safe
     "200_Options":
-      title: OK FOR STATE
+      title: OK OPTIONS FOR STATE
       type: object
       properties:
         geo_around:
@@ -542,7 +542,7 @@ components:
 
     ### Schemas Options Safe
     "200_Options_County":
-      title: OK FOR COUNTY
+      title: OK OPTIONS FOR COUNTY
       type: object
       properties:
         geo_around:
@@ -555,7 +555,7 @@ components:
 
     ### Schemas Options Safe
     "200_Options_City":
-      title: OK FOR CITY
+      title: OK OPTIONS FOR CITY
       type: object
       properties:
         geo_around:
@@ -569,7 +569,7 @@ components:
 
     ### Schemas Options Safe
     "200_Options_Street":
-      title: OK FOR STREET
+      title: OK OPTIONS FOR STREET
       type: object
       properties:
         geo_around:
