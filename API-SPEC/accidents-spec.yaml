@@ -281,7 +281,7 @@ paths:
   /roadtripadvisor/city/{city}:
     get:
       summary: Accidents in a city
-      description: Number of accidents registred in our dataset from a specific city.
+      description: Number of accidents registered in our dataset from a specific city.
       parameters:
         - $ref: "#/components/parameters/city"
         - $ref: "#/components/parameters/datetime"
@@ -329,7 +329,7 @@ paths:
             text/plain:
               schema:
                 type: string
-                example: "You should take extra precautions, we have registred several accidents occurring close to your starting hour. Humidity levels are elevated in the cities you will go trough drive with extra care and obey speed limits."
+                example: "You should take extra precautions, we have registered several accidents occurring close to your starting hour. Humidity levels are elevated in the cities you will go trough drive with extra care and obey speed limits."
         "403":
           description: Forbidden
           content:
@@ -587,7 +587,7 @@ paths:
           
         - name: interval
           in: query
-          description: Interval in minutes that you want to seach above and below your before parameter
+          description: Interval in minutes that you want to search above and below your before parameter
           schema:
             type: number
             format: integer
@@ -841,6 +841,192 @@ paths:
               schema:
                 $ref: '#/components/schemas/500'
 
+  /conditioner_safety_driving:
+    get:
+      summary: "All accidents in the United States of America."
+      description: "Access Weather information about the accidents in the USA."
+      operationId: AllAccidentsWithWeather
+      tags:
+        - conditioner safety driving
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccidentList'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+
+  /conditioner_safety_driving/{severity}:
+    get:
+      summary: "GET the severity in all accidents."
+      description: "Access the information about the severity of Accidents."
+      operationId: SeverityAccidents
+      tags:
+        - conditioner safety driving
+      parameters:
+        - name: severity
+          in: path
+          description: "The severity level of the accident (1: low, 2: medium, 3: high, 4: very high)."
+          required: true
+          schema:
+            type: integer
+            enum: [ 1, 2, 3, 4 ]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccidentList'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+
+  /conditioner_safety_driving/severity/{severity}:
+    get:
+      summary: "GET all accidents with a specific severity."
+      description: "Access the information about the accidents with a specific severity."
+      operationId: AccidentsBySeverity
+      tags:
+        - conditioner safety driving
+      parameters:
+        - name: severity
+          in: path
+          description: "The severity level of the accident (1: low, 2: medium, 3: high, 4: very high)."
+          required: true
+          schema:
+            type: integer
+            enum: [ 1, 2, 3, 4 ]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccidentList'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+
+  /conditioner_safety_driving/weather:
+    get:
+      summary: "Preview an accident"
+      description: "Simulate whether it might have occur an accident given weather conditions from user."
+      operationId: AccidentsByWeather
+      tags:
+        - conditioner safety driving
+      parameters:
+        - name: Weather_Condition
+          in: query
+          description: "The weather condition at the time of the accident."
+          required: true
+          schema:
+            type: string
+        - name: Weather_Timestamp
+          in: query
+          description: "The time-stamp of weather observation record (in local time)."
+          required: false
+          schema:
+            type: string
+        - name: Temperature
+          in: query
+          description: "The temperature (in Fahrenheit)."
+          required: false
+          schema:
+            type: number
+        - name: Wind_Chill
+          in: query
+          description: "The wind chill (in Fahrenheit)."
+          required: false
+          schema:
+            type: number
+        - name: Humidity
+          in: query
+          description: "The humidity (in percentage)."
+          required: false
+          schema:
+            type: number
+        - name: Pressure
+          in: query
+          description: "The air pressure (in inches)."
+          required: false
+          schema:
+            type: number
+        - name: Wind_Direction
+          in: query
+          description: "The wind direction."
+          required: false
+          schema:
+            type: string
+        - name: Wind_Speed
+          in: query
+          description: "The wind speed (in miles per hour)."
+          required: false
+          schema:
+            type: number
+        - name: Precipitation
+          in: query
+          description: "The precipitation amount in inches."
+          required: false
+          schema:
+            type: number
+        - name: Amenity
+          in: query
+          description: "A POI annotation indicating the presence of an amenity in a nearby location."
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccidentList'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+
+
 components:
 
   parameters:
@@ -974,6 +1160,8 @@ components:
             $ref: '#/components/schemas/sunrise_sunset'
 
   schemas:
+
+
     ### Schemas for all
     "200_ALL":
       title: OK ALL
@@ -1476,6 +1664,39 @@ components:
           example: internal server error.
 
     ### Custom Schemas
+
+    AccidentList:
+      type: array
+      items:
+        $ref: '#/components/schemas/Accident'
+    Accident:
+      type: object
+      properties:
+        id:
+          type: integer
+        severity:
+          type: integer
+        Weather_Timestamp:
+          type: string
+          format: date-time
+        Temperature:
+          type: number
+        Wind_Chill:
+          type: number
+        Humidity:
+          type: number
+        Pressure:
+          type: number
+        Wind_Direction:
+          type: string
+        Wind_Speed:
+          type: number
+        Precipitation:
+          type: number
+        Weather_Condition:
+          type: string
+        Amenity:
+          type: string
     severity:
       title: severity
       type: number
