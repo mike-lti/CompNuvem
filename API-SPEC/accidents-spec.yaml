@@ -277,13 +277,11 @@ paths:
                 $ref: '#/components/schemas/500'
       tags:
         - RoadTripAdvisor
-        
-        
-        
+         
   /roadtripadvisor/city/{city}:
     get:
       summary: Accidents in a city
-      description: Number of accidents registred in our dataset from a specific city.
+      description: Number of accidents registered in our dataset from a specific city.
       parameters:
         - $ref: "#/components/parameters/city"
         - $ref: "#/components/parameters/datetime"
@@ -313,8 +311,7 @@ paths:
                 
       tags:
         - RoadTripAdvisor
-        
-
+      
   /roadtripadvisor/trip-advisor/{city}/{destCity}:
     get:
       summary: Get trip advice based on humidity levels and starting date and hours of the trip.
@@ -332,7 +329,7 @@ paths:
             text/plain:
               schema:
                 type: string
-                example: "You should take extra precautions, we have registred several accidents occurring close to your starting hour. Humidity levels are elevated in the cities you will go trough drive with extra care and obey speed limits."
+                example: "You should take extra precautions, we have registered several accidents occurring close to your starting hour. Humidity levels are elevated in the cities you will go trough drive with extra care and obey speed limits."
         "403":
           description: Forbidden
           content:
@@ -360,7 +357,6 @@ paths:
                 $ref: '#/components/schemas/500'
       tags:
         - RoadTripAdvisor
-        
         
   /roadtripadvisor/humidity/greater_than:
     get:
@@ -443,7 +439,6 @@ paths:
       tags:
         - RoadTripAdvisor
   
-  
   /roadtripadvisor/humidity/smaller_than:
     get:
       summary: Number of accidents with humidity percentage smaller than the specified value
@@ -484,8 +479,6 @@ paths:
                 $ref: '#/components/schemas/500'
       tags:
         - RoadTripAdvisor
-
-
 
   /roadtripadvisor/datetime/after:
     get:
@@ -533,7 +526,6 @@ paths:
       tags:
         - RoadTripAdvisor
 
-
   /roadtripadvisor/datetime/before:
     get:
       summary: Number of accidents that took place before the specified hour
@@ -579,9 +571,7 @@ paths:
                 $ref: '#/components/schemas/500'
       tags:
         - RoadTripAdvisor
-
-        
-        
+ 
   /roadtripadvisor/datetime/atTime:
     get:
       summary: Number of accidents that took place before the specified hour
@@ -597,7 +587,7 @@ paths:
           
         - name: interval
           in: query
-          description: Interval in minutes that you want to seach above and below your before parameter
+          description: Interval in minutes that you want to search above and below your before parameter
           schema:
             type: number
             format: integer
@@ -638,6 +628,404 @@ paths:
                 $ref: '#/components/schemas/500'
       tags:
         - RoadTripAdvisor
+
+  #Traffic Signs endpoints
+  /traffic_signs/all:
+    get:
+      summary: "GET all accidents in the United States of America."
+      description: "Access the information about the number of Accidents in the USA."
+      operationId: TrafficSignsAllAccidents
+      tags:
+        - Traffic Signs
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/200_NEAR_TRAFFIC_SIGN_ALL'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+  
+  /traffic_signs/{state}:
+    get:
+      summary: "GET all accidents near a traffic sign in a certain state."
+      description: "Access the information about the number of Accidents near a Traffic Sign."
+      operationId: AccidentsNearTrafficSignsInState
+      tags:
+        - Traffic Signs
+      parameters:
+        - $ref: '#/components/parameters/state'
+        - $ref: '#/components/parameters/severity'
+
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/200_NEAR_TRAFFIC_SIGN_State'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+                
+  /traffic_signs/{city}:
+    get:
+      summary: "GET all accidents near a traffic sign in a certain city."
+      description: "Access the information about the number of Accidents near a Traffic Sign."
+      operationId: AccidentsNearTrafficSignsInCity
+      tags:
+        - Traffic Signs
+      parameters:
+        - $ref: '#/components/parameters/city'
+        - $ref: '#/components/parameters/severity'
+
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/200_NEAR_TRAFFIC_SIGN_City'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+  
+  /traffic_signs/{county}:
+    get:
+      summary: "GET all accidents near a traffic sign in a certain county."
+      description: "Access the information about the number of Accidents near a Traffic Sign."
+      operationId: AccidentsNearTrafficSignsInCounty
+      tags:
+        - Traffic Signs
+      parameters:
+        - $ref: '#/components/parameters/county'
+        - $ref: '#/components/parameters/severity'
+
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/200_NEAR_TRAFFIC_SIGN_County'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+  
+  /traffic_signs:
+    get:
+      summary: "GET all accidents near a traffic sign."
+      description: "Access the information about the number of Accidents near a Traffic Sign."
+      operationId: AccidentsNearTrafficSigns
+      tags:
+        - Traffic Signs
+      parameters:
+        - $ref: '#/components/parameters/severity'
+
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/200_NEAR_TRAFFIC_SIGN'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+
+  /traffic_signs/{traffic_sign}:
+    get:
+      summary: "GET all accidents near a specific traffic sign."
+      description: "Access the information about the number of Accidents near a specific Traffic Sign."
+      operationId: AccidentsByTrafficSign
+      tags:
+        - Traffic Signs
+      parameters:
+        - $ref: '#/components/parameters/traffic_sign'
+        - $ref: '#/components/parameters/severity'
+
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/200_NEAR_TRAFFIC_SIGN'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+
+  /traffic_signs/probability:
+    get:
+      summary: "Get probability of each accident being due to poor signage."
+      description: "Access the information about the number of Accidents near a Traffic Sign."
+      operationId: ProbabilityOfAccidentNearTrafficSign
+      tags:
+        - Traffic Signs
+      parameters:
+        - $ref: '#/components/parameters/probability'
+
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/200_PROBABILITY'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+
+  /conditioner_safety_driving:
+    get:
+      summary: "All accidents in the United States of America."
+      description: "Access Weather information about the accidents in the USA."
+      operationId: AllAccidentsWithWeather
+      tags:
+        - conditioner safety driving
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccidentList'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+
+  /conditioner_safety_driving/{severity}:
+    get:
+      summary: "GET the severity in all accidents."
+      description: "Access the information about the severity of Accidents."
+      operationId: SeverityAccidents
+      tags:
+        - conditioner safety driving
+      parameters:
+        - name: severity
+          in: path
+          description: "The severity level of the accident (1: low, 2: medium, 3: high, 4: very high)."
+          required: true
+          schema:
+            type: integer
+            enum: [ 1, 2, 3, 4 ]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccidentList'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+
+  /conditioner_safety_driving/severity/{severity}:
+    get:
+      summary: "GET all accidents with a specific severity."
+      description: "Access the information about the accidents with a specific severity."
+      operationId: AccidentsBySeverity
+      tags:
+        - conditioner safety driving
+      parameters:
+        - name: severity
+          in: path
+          description: "The severity level of the accident (1: low, 2: medium, 3: high, 4: very high)."
+          required: true
+          schema:
+            type: integer
+            enum: [ 1, 2, 3, 4 ]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccidentList'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+
+  /conditioner_safety_driving/weather:
+    get:
+      summary: "Preview an accident"
+      description: "Simulate whether it might have occur an accident given weather conditions from user."
+      operationId: AccidentsByWeather
+      tags:
+        - conditioner safety driving
+      parameters:
+        - name: Weather_Condition
+          in: query
+          description: "The weather condition at the time of the accident."
+          required: true
+          schema:
+            type: string
+        - name: Weather_Timestamp
+          in: query
+          description: "The time-stamp of weather observation record (in local time)."
+          required: false
+          schema:
+            type: string
+        - name: Temperature
+          in: query
+          description: "The temperature (in Fahrenheit)."
+          required: false
+          schema:
+            type: number
+        - name: Wind_Chill
+          in: query
+          description: "The wind chill (in Fahrenheit)."
+          required: false
+          schema:
+            type: number
+        - name: Humidity
+          in: query
+          description: "The humidity (in percentage)."
+          required: false
+          schema:
+            type: number
+        - name: Pressure
+          in: query
+          description: "The air pressure (in inches)."
+          required: false
+          schema:
+            type: number
+        - name: Wind_Direction
+          in: query
+          description: "The wind direction."
+          required: false
+          schema:
+            type: string
+        - name: Wind_Speed
+          in: query
+          description: "The wind speed (in miles per hour)."
+          required: false
+          schema:
+            type: number
+        - name: Precipitation
+          in: query
+          description: "The precipitation amount in inches."
+          required: false
+          schema:
+            type: number
+        - name: Amenity
+          in: query
+          description: "A POI annotation indicating the presence of an amenity in a nearby location."
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccidentList'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+        "500":
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/500'
+
 
 components:
 
@@ -695,6 +1083,14 @@ components:
           - 4
         default: 1
         example: 4
+    traffic_sign:
+      name: traffic_sign
+      in: path
+      description: "The traffic sign where the information comes from"
+      schema:
+        type: string
+        example: "Amenity"
+      required: true
     ## for authenticated users and location
     geo_dimension:
       name: geo_dimension
@@ -725,7 +1121,6 @@ components:
       required: True
       schema:
         $ref : "#/components/schemas/destCity"
-        
     datetime:
       name: "datetime"
       in: query
@@ -734,8 +1129,6 @@ components:
       schema:
         type: "string"
         format: "date-time"
-        
-        
     humidity:
       name: "humidity"
       in: query
@@ -744,8 +1137,31 @@ components:
       schema:
         $ref: "#/components/schemas/humidity"
     
+    #Traffic Sign
+    probability:
+      name: probability
+      in: header
+      description: "The components necessary to calculate the probability of an accident being due to poor signage"
+      required: true
+      schema:
+        type: object
+        properties:
+          severity:
+            $ref: '#/components/schemas/severity'
+          description:
+            $ref: '#/components/schemas/description'
+          visibility:
+            $ref: '#/components/schemas/visibility'
+          weather_conditions:
+            $ref: '#/components/schemas/weather_conditions'
+          traffic_signs:
+            $ref: '#/components/schemas/traffic_signs'
+          sunrise_sunset:
+            $ref: '#/components/schemas/sunrise_sunset'
 
   schemas:
+
+
     ### Schemas for all
     "200_ALL":
       title: OK ALL
@@ -959,7 +1375,6 @@ components:
             street:
               $ref: '#/components/schemas/street'
 
-
     ### Schemas Options Safe
     "200_Options":
       title: OK OPTIONS FOR STATE
@@ -972,7 +1387,6 @@ components:
               $ref: '#/components/schemas/state'
             state2:
               $ref: '#/components/schemas/state'
-
 
     ### Schemas Options Safe
     "200_Options_County":
@@ -1014,6 +1428,200 @@ components:
             street2:
               $ref: '#/components/schemas/street'
 
+    ### Schemas Traffic Signs
+    "200_NEAR_TRAFFIC_SIGN_ALL":
+      title: All Accidents OK
+      type: object
+      required:
+        - number_of_accidents
+        - accident
+      properties:
+        number_of_accidents:
+          type: integer
+          example: 1500
+        accident:
+          type: array
+          items:
+            type: object
+            properties:
+              severity:
+                $ref: '#/components/schemas/severity'
+              state:
+                $ref: '#/components/schemas/state'
+              county:
+                $ref: '#/components/schemas/county'
+              city:
+                $ref: '#/components/schemas/city'
+              street:
+                $ref: '#/components/schemas/street'
+              description:
+                $ref: '#/components/schemas/description'
+              traffic_signs:
+                $ref: '#/components/schemas/traffic_signs'
+  
+    "200_NEAR_TRAFFIC_SIGN":
+      title: All Accidents Near Traffic Signs OK
+      type: object
+      required:
+        - number_of_accidents
+        - accident
+      properties:
+        number_of_accidents:
+          type: integer
+          example: 1500
+        accident:
+          type: array
+          items:
+            type: object
+            properties:
+              severity:
+                $ref: '#/components/schemas/severity'
+              state:
+                $ref: '#/components/schemas/state'
+              county:
+                $ref: '#/components/schemas/county'
+              city:
+                $ref: '#/components/schemas/city'
+              street:
+                $ref: '#/components/schemas/street'
+              start_time:
+                $ref: '#/components/schemas/start_time'
+              end_time:
+                $ref: '#/components/schemas/end_time'
+              description:
+                $ref: '#/components/schemas/description'
+              visibility:
+                $ref: '#/components/schemas/visibility'
+              weather_conditions:
+                $ref: '#/components/schemas/weather_conditions'
+              traffic_signs:
+                $ref: '#/components/schemas/traffic_signs'
+              sunrise_sunset:
+                $ref: '#/components/schemas/sunrise_sunset'
+
+    ### Schemas by State
+    "200_NEAR_TRAFFIC_SIGN_State":
+      title: All Accidents Near Traffic Signs In State OK
+      type: object
+      required:
+        - number_of_accidents
+        - accident
+      properties:
+        number_of_accidents:
+          type: integer
+          example: 1500
+        accident:
+          type: array
+          items:
+            type: object
+            properties:
+              severity:
+                $ref: '#/components/schemas/severity'
+              county:
+                $ref: '#/components/schemas/county'
+              city:
+                $ref: '#/components/schemas/city'
+              street:
+                $ref: '#/components/schemas/street'
+              start_time:
+                $ref: '#/components/schemas/start_time'
+              end_time:
+                $ref: '#/components/schemas/end_time'
+              description:
+                $ref: '#/components/schemas/description'
+              visibility:
+                $ref: '#/components/schemas/visibility'
+              weather_conditions:
+                $ref: '#/components/schemas/weather_conditions'
+              traffic_signs:
+                $ref: '#/components/schemas/traffic_signs'
+              sunrise_sunset:
+                $ref: '#/components/schemas/sunrise_sunset'
+
+    ### Schemas by County
+    "200_NEAR_TRAFFIC_SIGN_County":
+      title: All Accidents Near Traffic Signs In County OK
+      type: object
+      required:
+        - number_of_accidents
+        - accident
+      properties:
+        number_of_accidents:
+          type: integer
+          example: 1500
+        accident:
+          type: array
+          items:
+            type: object
+            properties:
+              severity:
+                $ref: '#/components/schemas/severity'
+              state:
+                $ref: '#/components/schemas/state'
+              city:
+                $ref: '#/components/schemas/city'
+              street:
+                $ref: '#/components/schemas/street'
+              start_time:
+                $ref: '#/components/schemas/start_time'
+              end_time:
+                $ref: '#/components/schemas/end_time'
+              description:
+                $ref: '#/components/schemas/description'
+              visibility:
+                $ref: '#/components/schemas/visibility'
+              weather_conditions:
+                $ref: '#/components/schemas/weather_conditions'
+              traffic_signs:
+                $ref: '#/components/schemas/traffic_signs'
+              sunrise_sunset:
+                $ref: '#/components/schemas/sunrise_sunset'
+
+    ### Schemas by City
+    "200_NEAR_TRAFFIC_SIGN_City":
+      title: All Accidents Near Traffic Signs In City OK
+      type: object
+      required:
+        - number_of_accidents
+        - accident
+      properties:
+        number_of_accidents:
+          type: integer
+          example: 1500
+        accident:
+          type: array
+          items:
+            type: object
+            properties:
+              severity:
+                $ref: '#/components/schemas/severity'
+              state:
+                $ref: '#/components/schemas/state'
+              county:
+                $ref: '#/components/schemas/county'
+              street:
+                $ref: '#/components/schemas/street'
+              start_time:
+                $ref: '#/components/schemas/start_time'
+              end_time:
+                $ref: '#/components/schemas/end_time'
+              description:
+                $ref: '#/components/schemas/description'
+              visibility:
+                $ref: '#/components/schemas/visibility'
+              weather_conditions:
+                $ref: '#/components/schemas/weather_conditions'
+              traffic_signs:
+                $ref: '#/components/schemas/traffic_signs'
+              sunrise_sunset:
+                $ref: '#/components/schemas/sunrise_sunset'
+
+    ### Schemas Options Safe
+    "200_PROBABILITY":
+      title: Probability OK
+      type: string
+      example: "The probability of this accident being due to poor signage is: 48%"
+    
     ### Generic Errors
     "403":
       title: FORBIDDEN
@@ -1056,6 +1664,39 @@ components:
           example: internal server error.
 
     ### Custom Schemas
+
+    AccidentList:
+      type: array
+      items:
+        $ref: '#/components/schemas/Accident'
+    Accident:
+      type: object
+      properties:
+        id:
+          type: integer
+        severity:
+          type: integer
+        Weather_Timestamp:
+          type: string
+          format: date-time
+        Temperature:
+          type: number
+        Wind_Chill:
+          type: number
+        Humidity:
+          type: number
+        Pressure:
+          type: number
+        Wind_Direction:
+          type: string
+        Wind_Speed:
+          type: number
+        Precipitation:
+          type: number
+        Weather_Condition:
+          type: string
+        Amenity:
+          type: string
     severity:
       title: severity
       type: number
@@ -1086,29 +1727,48 @@ components:
       type: string
       description: "street where the accident occurred"
       example: Bourbon Street
-    accident_name:
-      type: object
-      properties:
-        severity:
-          $ref: '#/components/schemas/severity'
-        state:
-          $ref: '#/components/schemas/state'
-        county:
-          $ref: '#/components/schemas/county'
-        city:
-          $ref: '#/components/schemas/city'
-    accident_name_B:
-      type: object
-      properties:
-        severity:
-          $ref: '#/components/schemas/severity'
-        state:
-          $ref: '#/components/schemas/state'
-        county:
-          $ref: '#/components/schemas/county'
-        city:
-          $ref: '#/components/schemas/city'
-          
+    start_time:
+      title: start_time
+      type: string
+      format: date-time
+      description: "Start date and time of when the accident took place"
+      example: 2017-07-21T17:32:28Z
+    end_time:
+      title: end_time
+      type: string
+      format: date-time
+      description: "End date and time of when the accident took place"
+      example: 2017-07-21T18:32:28Z
+    description:
+      title: description
+      type: string
+      description: "Description of the accident that took place"
+      example: Accident on I-480 Eastbound at Exit 23 OH-14 Broadway Ave.
+    visibility:
+      title: visibility
+      type: number
+      format: float
+      description: "Visibility (in miles)"
+      example: 2.5
+    weather_conditions:
+      title: weather_condition
+      type: string
+      description: "Shows the weather condition at the time of the accident"
+      example: Partly Cloudy
+    traffic_signs:
+      title: traffic_sign
+      type: array
+      items:
+        type: string
+        enum: [Amenity, Bump, Crossing, Give_Way, Junction, No_Exit, Railway, Roundabout, Station, Stop, Traffic_Calming, Traffic_Signal, Turning_Loop]
+      description: "Type of traffic sign near the site of the accident"
+      example: [Amenity]
+    sunrise_sunset:
+      title: traffic_sign
+      type: string
+      enum: [Day, Night]
+      description: "Period of the day at the time of the accident"
+      example: Day
     humidity:
       type: object
       required:
@@ -1118,7 +1778,6 @@ components:
           type: number
           format: float
           description: Humidity percentage
-          
     destCity:
       type: "object"
       required:
